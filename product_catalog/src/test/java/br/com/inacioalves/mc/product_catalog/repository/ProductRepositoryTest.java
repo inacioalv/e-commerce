@@ -2,6 +2,7 @@ package br.com.inacioalves.mc.product_catalog.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,10 +35,70 @@ public class ProductRepositoryTest {
 		
 		assertThat(product.getId()).isNotNull();
 	}
+	
+	@Test
+	public void return_When_is_no_Product_registered_withId() {
+		Optional<Product> plantfound = repository.findById(1L);
+		
+		assertThat(plantfound.isPresent()).isFalse();
+	}
+	
+	@Test
+	public void returnProductFindById() {
+		Product product =createPersistirTheProduct();
+		
+		Optional<Product> plantfound = repository.findById(product.getId());
+		
+		assertThat(plantfound.isPresent()).isTrue();
+	}
+	
+	@Test
+	public void returnDeleteProduct() {
+		Product product =createPersistirTheProduct();
+		
+		product= entityManager.find(Product.class, product.getId());
+		
+		repository.delete(product);
+		
+		Product plantNonexistent = entityManager.find(Product.class, product.getId());
+		assertThat(plantNonexistent).isNull();
+	}
+	
+	@Test
+	public void returnUpdattePlant() {
+		Product product =createPersistirTheProduct();
+		
+		product.setName("name");
+		product.setPrice(1000);
+		product.setDescription("description");
+		product.setCategory("category");
+		product.setAvailabity(true);
+		
+		repository.save(product);
+		
+		Product productUpdated = entityManager.find(Product.class, product.getId());
+		
+		assertThat(productUpdated.getName()).isEqualTo("name");
+		assertThat(productUpdated.getPrice()).isEqualTo(1000);
+		assertThat(productUpdated.getDescription()).isEqualTo("description");
+		assertThat(productUpdated.getCategory()).isEqualTo("category");
+		assertThat(productUpdated.isAvailabity()).isEqualTo(true);
+		
+		
+	}
+	
+	private Product createPersistirTheProduct() {
+		Product product = createProduct();
+		entityManager.persist(product);
+		return product;
+	}
+	
+	
+	
+	
 
 	private Product createProduct() {
 		return Product.builder()
-				.id(1L)
 				.name("name")
 				.price(1000)
 				.description("description")
