@@ -2,6 +2,8 @@ package br.com.inacioalves.mc.product_catalog.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +33,7 @@ public class ProductController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ProductDto createProduct(@RequestBody ProductDto productDto) {
+	public ProductDto createProduct(@Valid @RequestBody ProductDto productDto) {
 		return service.create(productDto);
 	}
 	
