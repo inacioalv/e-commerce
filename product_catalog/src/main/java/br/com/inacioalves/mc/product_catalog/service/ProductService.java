@@ -40,8 +40,11 @@ public class ProductService {
 	}
 	
 	public ProductDto findById(Long id) throws objectNotFoundException {
-		Product Product =verifyIfExists(id);
-		return productMapper.tpDto(Product);
+		Product product =verifyIfExists(id);
+		if(product.getQuantity() > 0) {
+			product.setAvailabity(true);
+		}
+		return productMapper.tpDto(product);
 	}
 	
 

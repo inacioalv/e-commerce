@@ -23,11 +23,13 @@ public class ProductDto implements Serializable {
 	@NotBlank(message = "Nome é obrigatório")
 	private String name;
 	@NotNull
-	private float price;
+	private double price;
 	@NotBlank(message = "Descrição é obrigatório")
 	private String description;
 	@NotBlank(message = "Categoria é obrigatório")
 	private String category;
+	@NotNull
+	private int quantity;
 	private boolean availabity;
 
 }
