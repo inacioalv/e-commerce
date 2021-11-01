@@ -212,9 +212,6 @@ public class ProductServiceTest {
 						service.updateById(expectedProductDto,1L);
 				
 				
-				assertThat(createProductDto.getId(), 
-						is(equalTo(createProductDto.getId())));
-				
 				assertThat(createProductDto.getName(), 
 						is(equalTo(createProductDto.getName())));
 				
@@ -252,6 +249,8 @@ public class ProductServiceTest {
 				.price(1000)
 				.description("description")
 				.category("category")
+				.quantity(10)
+				.availabity(true)
 				.build();
 	}
 

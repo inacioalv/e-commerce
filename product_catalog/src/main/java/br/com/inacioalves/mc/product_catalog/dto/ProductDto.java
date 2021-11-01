@@ -1,9 +1,11 @@
 package br.com.inacioalves.mc.product_catalog.dto;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -30,6 +32,8 @@ public class ProductDto implements Serializable {
 	private String category;
 	@NotNull
 	private int quantity;
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+	private LocalDateTime dateCreated;
 	private boolean availabity;
 
 }

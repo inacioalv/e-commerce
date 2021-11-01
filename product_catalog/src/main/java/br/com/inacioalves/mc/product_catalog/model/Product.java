@@ -1,11 +1,13 @@
 package br.com.inacioalves.mc.product_catalog.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +31,7 @@ public class Product implements Serializable {
 	private String description;
 	private String category;
 	private int quantity;
+	private LocalDateTime dateCreated;
 	private boolean availabity;
 
 }
