@@ -249,8 +249,7 @@ public class ProductServiceTest {
 				.price(1000)
 				.description("description")
 				.category("category")
-				.quantity(10)
-				.availabity(true)
+				.availabity(10)
 				.build();
 	}
 

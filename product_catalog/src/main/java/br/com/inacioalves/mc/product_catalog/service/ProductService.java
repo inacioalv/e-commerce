@@ -42,9 +42,6 @@ public class ProductService {
 	
 	public ProductDto findById(Long id) throws objectNotFoundException {
 		Product product =verifyIfExists(id);
-		if(product.getQuantity() > 0) {
-			product.setAvailabity(true);
-		}
 		return productMapper.tpDto(product);
 	}
 	

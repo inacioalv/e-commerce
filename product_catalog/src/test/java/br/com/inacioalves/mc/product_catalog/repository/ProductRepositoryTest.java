@@ -36,12 +36,6 @@ public class ProductRepositoryTest {
 		assertThat(product.getId()).isNotNull();
 	}
 	
-	@Test
-	public void return_When_is_no_Product_registered_withId() {
-		Optional<Product> plantfound = repository.findById(1L);
-		
-		assertThat(plantfound.isPresent()).isFalse();
-	}
 	
 	@Test
 	public void returnProductFindById() {
@@ -72,8 +66,6 @@ public class ProductRepositoryTest {
 		product.setPrice(1000);
 		product.setDescription("description");
 		product.setCategory("category");
-		product.setAvailabity(true);
-		
 		repository.save(product);
 		
 		Product productUpdated = entityManager.find(Product.class, product.getId());
@@ -82,7 +74,6 @@ public class ProductRepositoryTest {
 		assertThat(productUpdated.getPrice()).isEqualTo(1000);
 		assertThat(productUpdated.getDescription()).isEqualTo("description");
 		assertThat(productUpdated.getCategory()).isEqualTo("category");
-		assertThat(productUpdated.isAvailabity()).isEqualTo(true);
 		
 		
 	}
@@ -103,7 +94,7 @@ public class ProductRepositoryTest {
 				.price(1000)
 				.description("description")
 				.category("category")
-				.availabity(true)
+				.availabity(10)
 				.build();
 	}
 }
