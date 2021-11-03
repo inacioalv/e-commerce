@@ -1,0 +1,86 @@
+package br.com.inacioalves.mc.user.service;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import br.com.inacioalves.mc.user.mapper.UserMapper;
+import br.com.inacioalves.mc.user.model.User;
+import br.com.inacioalves.mc.user.model.dto.PhoneDto;
+import br.com.inacioalves.mc.user.model.dto.UserDto;
+import br.com.inacioalves.mc.user.repository.UserRepository;
+
+@ExtendWith(SpringExtension.class)
+@ActiveProfiles("test")
+public class UserServiceTest {
+	
+	@InjectMocks
+	private UserService service;
+	
+	private final UserMapper userMapper = UserMapper.INSTANCE;
+	
+	@Mock
+	private UserRepository repository;
+	
+	
+	@Test
+	public void whenUserInformedThenItshouldBeCreated() {
+		//given
+		UserDto expectedUserDto = createUserDto();
+		User expectedSavedUser = userMapper.toModel(expectedUserDto);
+		
+		//when
+		when(repository
+				.findById(expectedUserDto.getId()))
+				.thenReturn(Optional.empty());
+		
+		when(repository
+				.save(expectedSavedUser))
+				.thenReturn(expectedSavedUser);
+		//then
+		UserDto createUserDto = 
+				service.create(expectedUserDto);
+		
+		
+		assertThat(createUserDto.getId(), 
+				is(equalTo(createUserDto.getId())));
+		
+		assertThat(createUserDto.getFirst_name(), 
+				is(equalTo(createUserDto.getFirst_name())));
+		
+		assertThat(createUserDto.getEmail(), 
+				is(equalTo(createUserDto.getEmail())));
+		
+	}
+
+
+	public static UserDto createUserDto() {
+		return UserDto.builder()
+				.id(1L)
+				.first_name("first_name")
+				.last_name("last_name")
+				.email("email")
+				.nickname("nickname")
+				.phone(new PhoneDto("10",10,10))
+				.build();
+	}
+
+}
