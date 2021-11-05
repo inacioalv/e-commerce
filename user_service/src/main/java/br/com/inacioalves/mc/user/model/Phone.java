@@ -15,6 +15,6 @@ public class Phone {
 	
 	private String area_code;
 	private int number;
-	private int verified;
+	private boolean verified;
 
 }

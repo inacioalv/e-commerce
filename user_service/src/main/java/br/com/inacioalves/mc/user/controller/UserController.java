@@ -1,9 +1,11 @@
 package br.com.inacioalves.mc.user.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,5 +35,10 @@ public class UserController {
 		URI uri=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return  ResponseEntity.created(uri).body(obj);
 	
+	}
+	
+	@GetMapping("/all")
+	public  List<UserDto> listAll(){
+		return service.listAll();
 	}
 }

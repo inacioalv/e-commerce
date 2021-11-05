@@ -1,6 +1,8 @@
 package br.com.inacioalves.mc.user.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,16 @@ public class UserService {
 		User savePlant= repository.save(plantSave);
 		return userMapper.tpDto(savePlant);
 	}
+	
+	
+	public List<UserDto> listAll(){
+		List<User> alluser = repository.findAll();
+		
+		return alluser.stream()
+				.map(userMapper::tpDto)
+				.collect(Collectors.toList());
+	}
+	
 
 	private void verifyIfIsAlreadyRegistered(String nickname) {
 		 Optional<User> optSavedBeer = repository.findByNickname(nickname);

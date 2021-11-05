@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import br.com.inacioalves.mc.user.exeption.objectNotFoundException;
 import br.com.inacioalves.mc.user.mapper.UserMapper;
 import br.com.inacioalves.mc.user.model.User;
 import br.com.inacioalves.mc.user.model.dto.PhoneDto;
@@ -70,6 +71,54 @@ public class UserServiceTest {
 				is(equalTo(createUserDto.getEmail())));
 		
 	}
+	
+	@Test
+	public void  WhenAlreadyRegisteredInformThenAExeptionShouldBeThrown() {
+		//given
+		UserDto expectedUserDto = createUserDto();
+		User duplicatedUser  = userMapper.toModel(expectedUserDto);
+
+	
+		//when
+		when(repository
+					.findByNickname(expectedUserDto.getNickname()))
+					.thenReturn(Optional.of(duplicatedUser));
+		//then
+		assertThrows(objectNotFoundException.class, 
+				()-> service.create(expectedUserDto));
+		
+		
+	}
+	
+	@Test
+	public void WhenListITCalledThenTurnBackAnFindAll() {
+		//given
+		UserDto expectedFoundUserDto = createUserDto();
+		User expectedFoundUser = userMapper.toModel(expectedFoundUserDto);
+	
+		//when
+		when(repository.findAll())
+			.thenReturn(Collections.singletonList(expectedFoundUser));
+		
+		//then
+		List<UserDto> foundListUserDto = service.listAll();
+		
+		assertThat(foundListUserDto, is(not(empty())));
+		assertThat(foundListUserDto.get(0), is(equalTo(expectedFoundUserDto)));
+		
+	}
+	
+	@Test
+	public void WhenListIsCalledThenReturnEmptyList() {
+		//when
+		when(repository.findAll()).thenReturn(Collections.emptyList());
+		
+		//then
+		List<UserDto> foundListUserDto = service.listAll();
+		
+		assertThat(foundListUserDto, is(empty()));
+	}
+	
 
 
 	public static UserDto createUserDto() {
@@ -79,7 +128,7 @@ public class UserServiceTest {
 				.last_name("last_name")
 				.email("email")
 				.nickname("nickname")
-				.phone(new PhoneDto("10",10,10))
+				.phone(new PhoneDto("10",10,true))
 				.build();
 	}
 

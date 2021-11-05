@@ -1,11 +1,13 @@
 package br.com.inacioalves.mc.user.controller;
 
+import static br.com.inacioalves.mc.user.utils.JsonConvertionUtils.asJsonString;
+import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static br.com.inacioalves.mc.user.utils.JsonConvertionUtils.asJsonString;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
@@ -62,5 +65,35 @@ public class UserControllerTest {
 				.andExpect(jsonPath("$.nickname",is(userDto.getNickname())));
 		
 	}
+	
+	@Test
+	public void whenGetListIsCalledThenOkStatusIsReturned() throws Exception {
+		//given
+		UserDto userDto = UserServiceTest.createUserDto();
+		
+		//then
+		when(service.listAll()).thenReturn(Collections.singletonList(userDto));
+		
+		mockMvc.perform(MockMvcRequestBuilders.get(API_URL_PATH+"/all")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$[0].first_name", is(userDto.getFirst_name())))
+				.andExpect(jsonPath("$[0].email", is(userDto.getEmail())));
+	}
+	
+	@Test
+	public void WhenTakeItListEmptyItReturnedOkStatus() throws Exception {
+		//given
+		UserDto userDto = UserServiceTest.createUserDto();
+		
+		//then
+		when(service.listAll()).thenReturn(Collections.singletonList(userDto));
+		
+		//then
+		mockMvc.perform(MockMvcRequestBuilders.get(API_URL_PATH+"/all")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+	}
+	
 
 }

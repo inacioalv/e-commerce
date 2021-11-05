@@ -13,6 +13,6 @@ public class PhoneDto {
 	
 	private String area_code;
 	private int number;
-	private int verified;
+	private boolean verified;
 
 }
