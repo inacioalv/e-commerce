@@ -45,6 +45,19 @@ public class UserService {
 		return userMapper.tpDto(plant);
 	}
 	
+	public UserDto updateById(UserDto plantDto,Long id)  {
+		verifyIfExists(id);
+		User userSave = userMapper.toModel(plantDto);
+		User saveUser= repository.save(userSave);
+		return  userMapper.tpDto(saveUser);
+		
+	}
+	
+	public void deleteById(Long id) throws objectNotFoundException {
+		verifyIfExists(id);
+		repository.deleteById(id);
+	}
+	
 	private User verifyIfExists(Long id) throws objectNotFoundException {
 		return repository.findById(id)
 				.orElseThrow(() -> new objectNotFoundException("User not found with ID:"+id));

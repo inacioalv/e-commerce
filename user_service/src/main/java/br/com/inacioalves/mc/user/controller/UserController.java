@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -65,5 +67,20 @@ public class UserController {
 		
 		return new ResponseEntity<UserDto>(
 				HttpStatus.NOT_FOUND);
+	 }
+	
+	 @PutMapping("update/{id}")
+	 @ResponseStatus(HttpStatus.OK)
+	 public ResponseEntity<Void> Update(@RequestBody UserDto userDto,@PathVariable Long id){
+		 	userDto.setId(id);
+			service.updateById(userDto,id);
+			return ResponseEntity.noContent().build();
+		}
+	 
+	 @DeleteMapping("/{id}")
+	 @ResponseStatus(code = HttpStatus.NO_CONTENT)
+	 public ResponseEntity<Void>  deleteById(@PathVariable  Long id) throws objectNotFoundException {
+		service.deleteById(id);
+		return ResponseEntity.noContent().build();
 	 }
 }

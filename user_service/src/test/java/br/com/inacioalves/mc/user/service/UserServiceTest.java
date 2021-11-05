@@ -119,6 +119,89 @@ public class UserServiceTest {
 		assertThat(foundListUserDto, is(empty()));
 	}
 	
+	@Test
+	public void WhenYourCalledWithValidHeMustThenUpdate() {
+		//given
+		UserDto expectedUserDto = createUserDto();
+		User expectedSavedUser = userMapper.toModel(expectedUserDto);
+				
+		//when
+		when(repository
+					.findById(expectedSavedUser.getId()))
+					.thenReturn(Optional.of(expectedSavedUser));
+				
+		when(repository
+					.save(expectedSavedUser))
+					.thenReturn(expectedSavedUser);
+		//then
+		UserDto createUserDto = 
+						service.updateById(expectedUserDto,1L);
+				
+				
+				assertThat(createUserDto.getId(), 
+						is(equalTo(createUserDto.getId())));
+				
+				assertThat(createUserDto.getFirst_name(), 
+						is(equalTo(createUserDto.getFirst_name())));
+				
+				assertThat(createUserDto.getEmail(), 
+						is(equalTo(createUserDto.getEmail())));
+		
+	}
+	
+	@Test
+	public void WhenUpdateAndCalledWithErrorAtIdentificationThenReturnsNotFound() {
+		//given
+		UserDto expectedDeletedUserDto = createUserDto();
+			
+		//when
+		when(repository
+					.findById(expectedDeletedUserDto.getId()))
+					.thenReturn(Optional.empty());
+				
+		//then
+		assertThrows(objectNotFoundException.class, 
+							()-> service.updateById(expectedDeletedUserDto,expectedDeletedUserDto.getId()));
+		
+	}
+	
+	@Test
+	public void  whenExclusionIsCalledWithValidIdThenShouldBeDeleted() {
+		//given
+		UserDto expectedDeletedUserDto = createUserDto();
+		User expectedDeletedUser = userMapper.toModel(expectedDeletedUserDto);
+	
+		//when
+		when(repository
+				   .findById(expectedDeletedUserDto.getId()))
+				   .thenReturn(Optional.of(expectedDeletedUser));
+		doNothing().when(repository)
+				   .deleteById(expectedDeletedUserDto.getId());
+		
+		//then
+		service.deleteById(expectedDeletedUserDto.getId());
+		
+		verify(repository,times(1))
+				.findById(expectedDeletedUserDto.getId());
+		verify(repository,times(1))
+				.deleteById(expectedDeletedUserDto.getId());
+	}
+	
+	@Test
+	public void WhenExclusionAndCalledWithMistakeAtIdentificationThenReturnsNotFound() {
+		//given
+		UserDto expectedDeletedUserDto = createUserDto();
+	
+		//when
+		when(repository
+				   .findById(expectedDeletedUserDto.getId()))
+				   .thenReturn(Optional.empty());
+		
+		//then
+		assertThrows(objectNotFoundException.class, 
+						()-> service.deleteById(expectedDeletedUserDto.getId()));
+	}
+	
 
 
 	public static UserDto createUserDto() {
