@@ -40,6 +40,16 @@ public class UserService {
 				.collect(Collectors.toList());
 	}
 	
+	public UserDto findById(Long id) throws objectNotFoundException {
+		User plant =verifyIfExists(id);
+		return userMapper.tpDto(plant);
+	}
+	
+	private User verifyIfExists(Long id) throws objectNotFoundException {
+		return repository.findById(id)
+				.orElseThrow(() -> new objectNotFoundException("User not found with ID:"+id));
+	}
+	
 
 	private void verifyIfIsAlreadyRegistered(String nickname) {
 		 Optional<User> optSavedBeer = repository.findByNickname(nickname);

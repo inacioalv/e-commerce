@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.inacioalves.mc.user.exeption.objectNotFoundException;
 import br.com.inacioalves.mc.user.model.dto.UserDto;
 import br.com.inacioalves.mc.user.service.UserService;
 
@@ -38,7 +40,30 @@ public class UserController {
 	}
 	
 	@GetMapping("/all")
-	public  List<UserDto> listAll(){
-		return service.listAll();
+	public ResponseEntity<List<UserDto>> listAll(){
+		List<UserDto> userDto = service.listAll();
+		
+		if(!userDto.isEmpty()) {
+			return new ResponseEntity<List<UserDto>>(
+					 userDto,
+					 HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<List<UserDto>>(
+				HttpStatus.NOT_FOUND);
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<UserDto> findById(@PathVariable Long id) throws objectNotFoundException {
+		 UserDto userDto = service.findById(id);
+		 
+		 if(userDto !=null) {
+			 return new ResponseEntity<UserDto>(
+					 userDto,
+					 HttpStatus.OK);
+		 }
+		
+		return new ResponseEntity<UserDto>(
+				HttpStatus.NOT_FOUND);
+	 }
 }
