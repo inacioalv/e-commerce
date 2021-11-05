@@ -2,6 +2,7 @@ package br.com.inacioalves.mc.user.controller;
 
 import static br.com.inacioalves.mc.user.utils.JsonConvertionUtils.asJsonString;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -67,6 +68,23 @@ public class UserControllerTest {
 	}
 	
 	@Test
+	public void  whenGETIsCalledWithValid_Id_ThenOkStatusIsReturned() throws Exception {
+		UserDto userDto = UserServiceTest.createUserDto();
+		
+		//when
+		when(service.findById(userDto.getId())).thenReturn(userDto);
+		
+		//then
+		mockMvc.perform(MockMvcRequestBuilders.get(API_URL_PATH+"/"+userDto.getId())
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.first_name", is(userDto.getFirst_name())))
+				.andExpect(jsonPath("$.email", is(userDto.getEmail())));
+	}
+	
+	    
+	
+	@Test
 	public void whenGetListIsCalledThenOkStatusIsReturned() throws Exception {
 		//given
 		UserDto userDto = UserServiceTest.createUserDto();
@@ -93,6 +111,37 @@ public class UserControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get(API_URL_PATH+"/all")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
+	}
+	
+	@Test
+	public void whenUpdateIsCalledThenOkStatusIsReturned() throws Exception {
+		//given
+		UserDto userDto = UserServiceTest.createUserDto();
+		
+		//then
+		when(service.updateById(userDto, userDto.getId())).thenReturn(userDto);
+		
+		mockMvc.perform(MockMvcRequestBuilders.put(API_URL_PATH+"/update"+"/"+userDto.getId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(userDto)))
+				.andExpect(status().isNoContent());
+				
+	}
+	
+	
+	
+	@Test
+	public void whenDELETEIsCalledWithValidIdThenNoContentStatusIsReturned() throws Exception {
+		//given
+		UserDto userDto = UserServiceTest.createUserDto();
+		
+		//when
+		doNothing().when(service).deleteById(userDto.getId());
+		
+		//then
+		mockMvc.perform(MockMvcRequestBuilders.delete(API_URL_PATH+"/"+userDto.getId())
+				.contentType(MediaType.APPLICATION_JSON))
+        		.andExpect(status().isNoContent());
 	}
 	
 
