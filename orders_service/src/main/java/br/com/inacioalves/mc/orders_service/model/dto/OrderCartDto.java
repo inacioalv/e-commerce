@@ -1,0 +1,28 @@
+package br.com.inacioalves.mc.orders_service.model.dto;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import br.com.inacioalves.mc.orders_service.model.Cart;
+import br.com.inacioalves.mc.orders_service.model.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class OrderCartDto {
+	
+	private Long id;
+	@JsonFormat( pattern = "dd-MM-yyyy HH:mm")
+	private LocalDateTime orderedDate;
+	private String status;
+	private List<Cart> cart;
+	private User user;
+	
+
+
+}

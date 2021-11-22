@@ -1,6 +1,5 @@
 package br.com.inacioalves.mc.orders_service.model;
 
-
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -17,11 +16,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Product implements Serializable {
-
+	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -35,4 +34,18 @@ public class Product implements Serializable {
 	@JoinColumn(name="cart", nullable=false)
 	@JsonIgnore
 	private Cart cart;
+	
+	
+	public Product(Long id, String name, double price, String description, String category, int availabity) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.description = description;
+		this.category = category;
+		this.availabity = availabity;
+	}
+	
+	
+
 }

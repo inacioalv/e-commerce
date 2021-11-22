@@ -1,7 +1,5 @@
 package br.com.inacioalves.mc.orders_service.repository;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -9,6 +7,9 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import br.com.inacioalves.mc.orders_service.feignclient.ProductClient;
 import br.com.inacioalves.mc.orders_service.model.Cart;
@@ -42,11 +43,11 @@ public class CartRepositoryImpl implements CartRepository {
 			if (cart == null) {
 				cart = createCart(cardid, id, product);
 			} else {
-				cart.getProducts().add(product);
+				cart.getProduct().add(product);
 			}
 		}
 
-		for (Product item : cart.getProducts()) {
+		for (Product item : cart.getProduct()) {
 			total += item.getPrice();
 		}
 
@@ -74,7 +75,7 @@ public class CartRepositoryImpl implements CartRepository {
 
 		Cart cart = new Cart();
 		cart.setId(cartid);
-		cart.setProducts(cartItems);
+		cart.setProduct(cartItems);
 		cart.setSubTotal(product.getPrice());
 
 		return cart;
@@ -82,9 +83,16 @@ public class CartRepositoryImpl implements CartRepository {
 
 	private Product productConversion(Long id) {
 		Product productConversion = productClient.getProductById(id);
-		Product product = new Product(productConversion.getId(), productConversion.getName(),
-				productConversion.getPrice(), productConversion.getDescription(), productConversion.getCategory(),
-				productConversion.getAvailabity(), new Cart());
+		
+		Product product = new Product(
+				productConversion.getId(), 
+				productConversion.getName(),
+				productConversion.getPrice(), 
+				productConversion.getDescription(), 
+				productConversion.getCategory(),
+				productConversion.getAvailabity(), 
+				new Cart());
+		
 		return product;
 	}
 

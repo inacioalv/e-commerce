@@ -1,5 +1,6 @@
 package br.com.inacioalves.mc.orders_service.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,8 +9,8 @@ import br.com.inacioalves.mc.orders_service.model.Product;
 import br.com.inacioalves.mc.orders_service.repository.CartRepository;
 
 @Service
-public class CartServiceImpl implements CartService {
-
+public class CartServiceImpl implements CartService{
+	
 	@Autowired
 	private CartRepository repository;
 
@@ -29,5 +30,41 @@ public class CartServiceImpl implements CartService {
 	public void deleteCart(String cartId) {
 		repository.deleteCart(cartId);
 	}
+	
 
 }
+
+
+//private CartRepository repository;
+//
+//@Autowired
+//private ProductClient client;
+//
+//public CartService(CartRepository repository) {
+//	super();
+//	this.repository = repository;
+//}
+//
+//
+//public Cart create(Cart cart) {
+//	return repository.save(cart);
+//}
+//
+//public Optional<Cart> getcart(Long id) {
+//	return repository.findById(id);
+//} 
+//
+//public Product createProduct(Product product,Long id) {
+//	Product productClient = client.getProductById(id);
+//	
+//	product = new Product (
+//			productClient.getId(),
+//			productClient.getName(),
+//			productClient.getPrice(),
+//			productClient.getDescription(),
+//			productClient.getCategory(),
+//			productClient.getAvailabity()
+//			);
+//	
+//	return product;
+//}

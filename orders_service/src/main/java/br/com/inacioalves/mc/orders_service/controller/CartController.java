@@ -1,9 +1,9 @@
 package br.com.inacioalves.mc.orders_service.controller;
 
+
+
 import java.net.URI;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import br.com.inacioalves.mc.orders_service.model.Cart;
 import br.com.inacioalves.mc.orders_service.model.Product;
 import br.com.inacioalves.mc.orders_service.service.CartService;
 
+
 @RestController
 public class CartController {
-
+	
 	@Autowired
 	CartService cartService;
 
@@ -55,5 +58,31 @@ public class CartController {
 		Cart items = cartService.getAllItemsFromCart(cartid);
 		return items;
 	}
-
+	
 }
+
+
+
+//private CartService service;
+//
+//public CartController(CartService service) {
+//	super();
+//	this.service = service;
+//}
+//
+//
+//@PostMapping
+//public Cart create(@RequestBody Cart cart) {
+//	return service.create(cart);
+//}
+//
+//@GetMapping("/{id}")
+//public Optional<Cart> getCart(@PathVariable Long id) {
+//	return service.getcart(id);
+//}
+//
+//@PostMapping("/product/{id}")
+//public Product createProduct(@RequestBody Product product,@PathVariable Long id) {
+//	return service.createProduct(product, id);
+//}
+

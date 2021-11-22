@@ -1,6 +1,5 @@
 package br.com.inacioalves.mc.orders_service.config;
 
-
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +8,6 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import br.com.inacioalves.mc.orders_service.model.Cart;
-
 
 @Configuration
 @EnableCaching
