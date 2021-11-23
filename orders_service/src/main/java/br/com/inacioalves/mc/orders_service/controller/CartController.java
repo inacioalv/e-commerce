@@ -7,6 +7,7 @@ import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,9 +21,13 @@ import org.slf4j.LoggerFactory;
 import br.com.inacioalves.mc.orders_service.model.Cart;
 import br.com.inacioalves.mc.orders_service.model.Product;
 import br.com.inacioalves.mc.orders_service.service.CartService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 
 @RestController
+@Api(value = "Api Rest Order")
+@CrossOrigin(origins = "*")
 public class CartController {
 	
 	@Autowired
@@ -30,6 +35,7 @@ public class CartController {
 
 	private Logger logger = LoggerFactory.getLogger(CartController.class);
 
+	@ApiOperation(value = "Create cart with id null")
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("createItem/{id}")
 	public ResponseEntity<Cart> createItem(@PathVariable Long id, @RequestBody Product product) {
@@ -41,6 +47,7 @@ public class CartController {
 		return ResponseEntity.created(uri).body(items);
 	}
 
+	@ApiOperation(value = "Create cart")
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("createItem/{cartid}/{id}")
 	public ResponseEntity<Cart> createItem(@PathVariable String cartid, @PathVariable Long id,
@@ -53,6 +60,7 @@ public class CartController {
 		return ResponseEntity.created(uri).body(items);
 	}
 
+	@ApiOperation(value = "Search cart")
 	@GetMapping("/cart/{cartid}")
 	public Cart getAllItemsFromCart(@PathVariable String cartid) {
 		Cart items = cartService.getAllItemsFromCart(cartid);
@@ -60,29 +68,4 @@ public class CartController {
 	}
 	
 }
-
-
-
-//private CartService service;
-//
-//public CartController(CartService service) {
-//	super();
-//	this.service = service;
-//}
-//
-//
-//@PostMapping
-//public Cart create(@RequestBody Cart cart) {
-//	return service.create(cart);
-//}
-//
-//@GetMapping("/{id}")
-//public Optional<Cart> getCart(@PathVariable Long id) {
-//	return service.getcart(id);
-//}
-//
-//@PostMapping("/product/{id}")
-//public Product createProduct(@RequestBody Product product,@PathVariable Long id) {
-//	return service.createProduct(product, id);
-//}
 

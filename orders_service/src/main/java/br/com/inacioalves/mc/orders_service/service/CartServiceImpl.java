@@ -33,38 +33,3 @@ public class CartServiceImpl implements CartService{
 	
 
 }
-
-
-//private CartRepository repository;
-//
-//@Autowired
-//private ProductClient client;
-//
-//public CartService(CartRepository repository) {
-//	super();
-//	this.repository = repository;
-//}
-//
-//
-//public Cart create(Cart cart) {
-//	return repository.save(cart);
-//}
-//
-//public Optional<Cart> getcart(Long id) {
-//	return repository.findById(id);
-//} 
-//
-//public Product createProduct(Product product,Long id) {
-//	Product productClient = client.getProductById(id);
-//	
-//	product = new Product (
-//			productClient.getId(),
-//			productClient.getName(),
-//			productClient.getPrice(),
-//			productClient.getDescription(),
-//			productClient.getCategory(),
-//			productClient.getAvailabity()
-//			);
-//	
-//	return product;
-//}
