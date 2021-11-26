@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,8 +29,9 @@ public class Cart implements Serializable {
 	@Column(name="cartid")
 	private String id;
 	private double subTotal;
-	private String currency;
+	
 	@ManyToMany(mappedBy = "cart")
+	@JsonIgnore
 	private List<OrderCart> orderCart;
 	@OneToMany(mappedBy="cart")
 	private List<Product> product;

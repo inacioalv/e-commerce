@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -26,6 +28,7 @@ import io.swagger.annotations.ApiOperation;
 
 
 @RestController
+@RequestMapping("/cart")
 @Api(value = "Api Rest Order")
 @CrossOrigin(origins = "*")
 public class CartController {
@@ -61,11 +64,25 @@ public class CartController {
 	}
 
 	@ApiOperation(value = "Search cart")
-	@GetMapping("/cart/{cartid}")
+	@GetMapping("/{cartid}")
 	public Cart getAllItemsFromCart(@PathVariable String cartid) {
 		Cart items = cartService.getAllItemsFromCart(cartid);
 		return items;
 	}
+	
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	@DeleteMapping("/delete/{cartId}")
+	public ResponseEntity<Object> delete(@PathVariable String cartId) {
+		cartService.deleteCart(cartId);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	@DeleteMapping("/remove/cart/{cartid}/product/{id}")
+	public void remove(@PathVariable String cartid,@PathVariable Long id) {
+		cartService.removeProduct(cartid, id);
+	}
+	
 	
 }
 

@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Product implements Serializable {
 	
@@ -30,13 +30,13 @@ public class Product implements Serializable {
 	private String description;
 	private String category;
 	private int availabity;
+	private int quantity;
 	@ManyToOne
 	@JoinColumn(name="cart", nullable=false)
 	@JsonIgnore
 	private Cart cart;
 	
-	
-	public Product(Long id, String name, double price, String description, String category, int availabity) {
+	public Product(Long id, String name, double price, String description, String category, int availabity,int quantity) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -44,7 +44,9 @@ public class Product implements Serializable {
 		this.description = description;
 		this.category = category;
 		this.availabity = availabity;
+		this.quantity=quantity;
 	}
+	
 	
 	
 

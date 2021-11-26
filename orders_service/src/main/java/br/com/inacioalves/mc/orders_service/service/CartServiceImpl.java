@@ -1,6 +1,7 @@
 package br.com.inacioalves.mc.orders_service.service;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,11 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public void deleteCart(String cartId) {
 		repository.deleteCart(cartId);
+	}
+
+	@Override
+	public void removeProduct(String cartid, Long id) {
+		repository.removeProduct(cartid, id);		
 	}
 	
 

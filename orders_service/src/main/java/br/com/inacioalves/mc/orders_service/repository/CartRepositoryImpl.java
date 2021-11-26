@@ -45,12 +45,14 @@ public class CartRepositoryImpl implements CartRepository {
 			} else {
 				cart.getProduct().add(product);
 			}
+			
 		}
 
 		for (Product item : cart.getProduct()) {
 			total += item.getPrice();
 		}
 
+		
 		cart.setSubTotal(total);
 		log.debug("cart: " + cart);
 		redisTemplate.opsForValue().set(cart.getId(), cart);
@@ -61,11 +63,19 @@ public class CartRepositoryImpl implements CartRepository {
 	public Cart getCartById(String cartid) {
 		return redisTemplate.opsForValue().get(cartid);
 	}
+	
+	@Override
+	public void removeProduct(String cartid,Long id) {
+		Cart cart = redisTemplate.opsForValue().get(cartid);
+		Product product = productConversion(id);
+		cart.getProduct().remove(product);
+	}
 
 	@Override
 	public void deleteCart(String cartid) {
 		redisTemplate.delete(cartid);
 	}
+	
 
 	private Cart createCart(String cartid, Long id, Product product) {
 		product = productConversion(id);
@@ -90,9 +100,8 @@ public class CartRepositoryImpl implements CartRepository {
 				productConversion.getPrice(), 
 				productConversion.getDescription(), 
 				productConversion.getCategory(),
-				productConversion.getAvailabity(), 
-				new Cart());
-		
+				productConversion.getAvailabity(),
+				0);
 		return product;
 	}
 
