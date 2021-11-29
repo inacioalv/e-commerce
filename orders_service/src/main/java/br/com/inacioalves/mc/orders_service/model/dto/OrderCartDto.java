@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.inacioalves.mc.orders_service.enums.Status;
 import br.com.inacioalves.mc.orders_service.model.Cart;
@@ -24,6 +25,7 @@ public class OrderCartDto {
 	private LocalDateTime orderedDate;
 	private Status status;
 	private List<Cart> cart;
+//	@JsonIgnore
 	private User user;
 	
 

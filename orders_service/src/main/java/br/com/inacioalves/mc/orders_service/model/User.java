@@ -1,5 +1,6 @@
 package br.com.inacioalves.mc.orders_service.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -7,7 +8,6 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -46,6 +46,14 @@ public class User {
 		this.nickname = nickname;
 		this.phone = phone;
 		this.order = order;
+	}
+	
+	public List<OrderCart> getOrder() {
+		List<OrderCart> vendas = new ArrayList<OrderCart>();
+		for(OrderCart o: order){
+			o.setCart(null);
+			vendas.add(o);}
+		return vendas;
 	}
 	
 	

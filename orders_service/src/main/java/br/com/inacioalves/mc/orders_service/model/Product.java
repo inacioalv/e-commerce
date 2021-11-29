@@ -2,6 +2,7 @@ package br.com.inacioalves.mc.orders_service.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -31,8 +32,9 @@ public class Product implements Serializable {
 	private String category;
 	private int availabity;
 	private int quantity;
-	@ManyToOne
-	@JoinColumn(name="cart", nullable=false)
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="cart")
 	@JsonIgnore
 	private Cart cart;
 	

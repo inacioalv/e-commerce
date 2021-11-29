@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,13 +44,13 @@ public class OrderCart implements Serializable  {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "OrderCartFk", joinColumns = @JoinColumn(name="orderCart_id"),
 	inverseJoinColumns = @JoinColumn(name="cart_id"))
 	private List<Cart> cart;
 	
-	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-	@JoinColumn(name = "user", nullable = false)
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "user")
 	private User user;
 	
 	

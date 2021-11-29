@@ -17,10 +17,18 @@ public class ApiGatewayConfiguration {
 								.addRequestHeader("MyHeader", "MyURI")
 								.addRequestParameter("Param", "MyValue"))
 						.uri("http://httpbin.org:80"))
-				.route(p -> p.path("/plant/**")
-						.uri("lb://order"))
-				.route(p -> p.path("/order/**")//URL
+				
+				.route(p -> p.path("/product/**")
+						.uri("lb://product"))
+				
+				.route(p -> p.path("/user/**")
+						.uri("lb://user"))
+				
+				.route(p -> p.path("/cart/**")//URL
 						.uri("lb://order"))//name application.properties
+				
+				.route(p -> p.path("/order/**")
+						.uri("lb://order"))
 				.build();
 		
 	}

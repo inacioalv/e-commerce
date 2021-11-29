@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import br.com.inacioalves.mc.orders_service.model.dto.OrderCartDto;
 import br.com.inacioalves.mc.orders_service.repository.OrderRepository;
 
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
 	
 	private OrderRepository repository;

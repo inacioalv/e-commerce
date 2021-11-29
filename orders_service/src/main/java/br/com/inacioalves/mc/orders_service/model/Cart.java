@@ -3,6 +3,7 @@ package br.com.inacioalves.mc.orders_service.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -33,7 +34,8 @@ public class Cart implements Serializable {
 	@ManyToMany(mappedBy = "cart")
 	@JsonIgnore
 	private List<OrderCart> orderCart;
-	@OneToMany(mappedBy="cart")
+	
+	@OneToMany(mappedBy="cart",cascade = CascadeType.ALL)
 	private List<Product> product;
 
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,9 +34,13 @@ public class OrderController {
 	}
 
 	@ApiOperation(value = "Create Order")
-	@PostMapping("user/{id}/cart/{cartid}")
+	@PostMapping("user/{id}")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public ResponseEntity<OrderCartDto> create(@RequestBody OrderCartDto orderDto,@PathVariable Long id,@PathVariable String cartid) {
+	public ResponseEntity<OrderCartDto> create(
+			OrderCartDto orderDto,
+			@PathVariable Long id,
+			@RequestHeader(value = "Cookie") String cartid) {
+		
 		OrderCartDto obj = service.create(orderDto,id,cartid);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj);
