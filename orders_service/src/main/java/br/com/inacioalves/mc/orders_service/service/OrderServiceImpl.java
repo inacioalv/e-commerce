@@ -3,6 +3,7 @@ package br.com.inacioalves.mc.orders_service.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -50,6 +51,21 @@ public class OrderServiceImpl implements OrderService {
 	public OrderCartDto findById(Long id) throws objectNotFoundException {
 		OrderCart order =verifyIfExists(id);
 		return orderMapper.tpDto(order);
+	}
+	
+	@Override
+	public List<OrderCartDto> listAll(){
+		List<OrderCart> allOrder = repository.findAll();
+		
+		return allOrder.stream()
+				.map(orderMapper :: tpDto)
+				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public void delete(Long id) throws objectNotFoundException {
+		verifyIfExists(id);
+		repository.deleteById(id);
 	}
 
 

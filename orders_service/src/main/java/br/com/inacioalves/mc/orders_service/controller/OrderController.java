@@ -1,10 +1,12 @@
 package br.com.inacioalves.mc.orders_service.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,6 +59,28 @@ public class OrderController {
 		}
 
 		return new ResponseEntity<OrderCartDto>(HttpStatus.NOT_FOUND);
+	}
+	
+	@ApiOperation(value = "Search Order all")
+	@GetMapping("/all")
+	public ResponseEntity<List<OrderCartDto>> listAll(){
+		List<OrderCartDto> listOrder = service.listAll();
+		
+		if(!listOrder.isEmpty()) {
+			return new ResponseEntity<List<OrderCartDto>>(
+					 listOrder,
+					 HttpStatus.OK);
+		}
+		return new ResponseEntity<List<OrderCartDto>>(
+				 HttpStatus.NOT_FOUND);
+	}
+	
+	@ApiOperation(value = "Delete Order")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	@DeleteMapping("delete/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 	
 
