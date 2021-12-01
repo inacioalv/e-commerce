@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.inacioalves.mc.orders_service.enums.Status;
 import br.com.inacioalves.mc.orders_service.exeption.objectNotFoundException;
 import br.com.inacioalves.mc.orders_service.feignclient.UserClient;
 import br.com.inacioalves.mc.orders_service.model.Cart;
@@ -60,15 +61,18 @@ public class OrderController {
 
 		if (cart != null && user != null) {
 			orderDto = createOrder(orderDto, user, listcart);
+			orderDto.setStatus(Status.CONFIRMED);
 			try {
 				service.saveOrder(orderDto);
 				cartService.deleteCart(cartid);
 				return new ResponseEntity<OrderCartDto>(orderDto, HttpStatus.CREATED);
 			} catch (Exception e) {
 				e.printStackTrace();
+				orderDto.setStatus(Status.CANCELLED);
 				return new ResponseEntity<OrderCartDto>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
+		orderDto.setStatus(Status.CANCELLED);
 		return new ResponseEntity<OrderCartDto>(HttpStatus.NOT_FOUND);
 
 	}
