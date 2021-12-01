@@ -6,7 +6,7 @@ import br.com.inacioalves.mc.orders_service.model.dto.OrderCartDto;
 
 public interface OrderService {
 	
-	public OrderCartDto create(OrderCartDto orderDto,Long id,String cartid);
+	public OrderCartDto saveOrder(OrderCartDto orderCartDto); 
 	public OrderCartDto findById(Long id);
 	public void delete(Long id);
 	public List<OrderCartDto> listAll();

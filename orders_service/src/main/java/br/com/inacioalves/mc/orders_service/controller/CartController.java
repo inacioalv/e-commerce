@@ -66,7 +66,7 @@ public class CartController {
 	@ApiOperation(value = "Search cart")
 	@GetMapping("/{cartid}")
 	public Cart getAllItemsFromCart(@PathVariable String cartid) {
-		Cart items = cartService.getAllItemsFromCart(cartid);
+		Cart items = cartService.getCart(cartid);
 		return items;
 	}
 	

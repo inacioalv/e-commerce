@@ -2,6 +2,7 @@ package br.com.inacioalves.mc.orders_service.service;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,8 @@ public class CartServiceImpl implements CartService{
 	private CartRepository repository;
 
 	@Override
-	public Cart getAllItemsFromCart(String cartid) {
-		Cart cart = repository.getCartById(cartid);
+	public Cart getCart(String cartId) {
+		Cart cart = repository.getCartById(cartId);
 		return cart;
 	}
 
@@ -36,6 +37,10 @@ public class CartServiceImpl implements CartService{
 	public void removeProduct(String cartid, Long id) {
 		repository.removeProduct(cartid, id);		
 	}
+
+	
+
+	
 	
 
 }
